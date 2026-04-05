@@ -1,58 +1,59 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel DDD Practice - Article Posting
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel + PHP で DDD / TDD を学ぶための練習用プロジェクトです。  
+題材はタスク管理から、Note のような記事投稿アプリへ寄せています。
 
-## About Laravel
+ただし、学習の進め方そのものは変えていません。  
+「普通の CRUD から始めて、テストで仕様を固定し、enum やモデルの振る舞いへ寄せていく」という流れをそのまま残しています。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 今の題材
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+現在は「記事投稿アプリ」を題材にしています。
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 記事一覧を表示する
+- 記事を投稿する
+- 下書き記事を公開する
+- 記事を削除する
 
-## Learning Laravel
+現段階では、学習の進捗を増やしすぎないために機能を最小限にしています。  
+そのため、記事本文のような要素はまだ入れず、タイトル・公開状態・公開予定日を中心に扱っています。
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 学習ポイント
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Laravel 標準の CRUD をまず作る
+- Feature Test で HTTP レベルの仕様を固定する
+- `ArticleStatus` enum で状態を型として扱う
+- `Article::publish()` に公開ルールを寄せる
+- 次の段階で Value Object / UseCase へ進めるようにする
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## 画面とルート
 
-## Agentic Development
+- 一覧画面: `/articles`
+- 投稿: `POST /articles`
+- 公開: `PATCH /articles/{article}/publish`
+- 削除: `DELETE /articles/{article}`
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## セットアップ
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+ブラウザで `/articles` を開くと、記事一覧と投稿フォームを確認できます。
 
-## Contributing
+## テスト
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan test
+```
 
-## Code of Conduct
+Feature Test と Unit Test を使って、現在の学習段階の仕様を固定しています。
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 進捗メモ
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+学習ロードマップと現在の進捗は [laravel-ddd-roadmap-progress.md](./laravel-ddd-roadmap-progress.md) にまとめています。  
+題材は記事投稿に変えていますが、フェーズ構成と進捗の段階感は維持しています。

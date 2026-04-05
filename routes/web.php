@@ -1,14 +1,13 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\TaskController;
-
-Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
-Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
-Route::patch('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
-Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
+Route::patch('/articles/{article}/publish', [ArticleController::class, 'publish'])->name('articles.publish');
+Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
