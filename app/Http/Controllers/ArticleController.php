@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ArticleStatus;
 use App\Exceptions\ArticleAlreadyPublishedException;
 use App\Models\Article;
+use App\UseCases\CreateArticleUseCase;
 use App\UseCases\PublishArticleUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,18 +23,14 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, CreateArticleUseCase $useCase): RedirectResponse
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'publish_date' => ['nullable', 'date', 'after_or_equal:today'],
         ]);
 
-        Article::create([
-            'title' => $validated['title'],
-            'status' => ArticleStatus::Draft,
-            'publish_date' => $validated['publish_date'] ?? null,
-        ]);
+        $useCase->handle($validated['title'], $validated['publish_date'] ?? null);
 
         return to_route('articles.index');
     }
