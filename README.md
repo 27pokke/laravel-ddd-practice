@@ -53,6 +53,11 @@ php artisan test
 
 Feature Test と Unit Test を使って、現在の学習段階の仕様を固定しています。
 
+## 学習メモ
+
+- DDD の概要: [Doc/DDD.md](./Doc/DDD.md)
+- TDD の概要: [Doc/TDD.md](./Doc/TDD.md)
+
 ## 進捗メモ
 
 学習ロードマップと現在の進捗は [laravel-ddd-roadmap-progress.md](./laravel-ddd-roadmap-progress.md) にまとめています。  
