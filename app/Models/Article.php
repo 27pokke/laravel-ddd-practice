@@ -27,8 +27,6 @@ class Article extends Model
             throw new \DomainException('Article is already published.');
         }
 
-        $this->update([
-            'status' => ArticleStatus::Published,
-        ]);
+        $this->status = ArticleStatus::Published;
     }
 }

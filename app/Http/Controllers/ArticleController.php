@@ -41,6 +41,7 @@ class ArticleController extends Controller
     {
         try {
             $article->publish();
+            $article->save();
         } catch (\DomainException $exception) {
             abort(400);
         }

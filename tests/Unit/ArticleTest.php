@@ -8,7 +8,7 @@ use Tests\TestCase;
 uses(TestCase::class, RefreshDatabase::class);
 
 it('下書き記事は公開できる', function () {
-    $article = Article::query()->create([
+    $article = new Article([
         'title' => '下書き記事',
         'status' => ArticleStatus::Draft->value,
         'publish_date' => null,
@@ -16,11 +16,11 @@ it('下書き記事は公開できる', function () {
 
     $article->publish();
 
-    expect($article->fresh()->status)->toBe(ArticleStatus::Published);
+    expect($article->status)->toBe(ArticleStatus::Published);
 });
 
 it('公開済み記事は再度公開できない', function () {
-    $article = Article::query()->create([
+    $article = new Article([
         'title' => '公開済み記事',
         'status' => ArticleStatus::Published->value,
         'publish_date' => null,
