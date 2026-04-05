@@ -42,7 +42,7 @@ class ArticleController extends Controller
         try {
             $article->publish();
             $article->save();
-        } catch (\DomainException $exception) {
+        } catch (\App\Exceptions\ArticleAlreadyPublishedException $exception) {
             abort(400);
         }
 

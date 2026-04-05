@@ -24,7 +24,7 @@ class Article extends Model
     public function publish(): void
     {
         if ($this->status === ArticleStatus::Published) {
-            throw new \DomainException('Article is already published.');
+            throw new \App\Exceptions\ArticleAlreadyPublishedException('Article is already published.');
         }
 
         $this->status = ArticleStatus::Published;

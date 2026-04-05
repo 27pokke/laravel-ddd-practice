@@ -4,6 +4,7 @@ use App\Enums\ArticleStatus;
 use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Exceptions\ArticleAlreadyPublishedException;
 
 uses(TestCase::class, RefreshDatabase::class);
 
@@ -27,5 +28,5 @@ it('公開済み記事は再度公開できない', function () {
     ]);
 
     expect(fn () => $article->publish())
-        ->toThrow(DomainException::class);
+        ->toThrow(ArticleAlreadyPublishedException::class);
 });
