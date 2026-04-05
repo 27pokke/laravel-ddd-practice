@@ -50,7 +50,7 @@
             / {{ $task->status }}
             / {{ optional($task->due_date)?->format('Y-m-d') ?? '期限なし' }}
 
-            @if ($task->status !== 'done')
+            @if ($task->status !== \App\Enums\TaskStatus::Done)
                 <form action="{{ route('tasks.complete', $task) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('PATCH')

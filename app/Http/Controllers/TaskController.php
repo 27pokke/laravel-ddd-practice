@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class TaskController extends Controller
 
         Task::create([
             'title' => $validated['title'],
-            'status' => 'todo',
+            'status' => TaskStatus::Todo,
             'due_date' => $validated['due_date'] ?? null,
         ]);
 
@@ -38,9 +39,11 @@ class TaskController extends Controller
 
     public function complete(Task $task): RedirectResponse
     {
-        $task->update([
-            'status' => 'done',
-        ]);
+        try {
+            $task->complete();
+        } catch (\DomainException $exception) {
+            abort(400);
+        }
 
         return to_route('tasks.index');
     }

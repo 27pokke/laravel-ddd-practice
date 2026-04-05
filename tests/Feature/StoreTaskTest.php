@@ -2,11 +2,12 @@
 
 use App\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 uses(RefreshDatabase::class);
 
 it('今日の日付の期限ならタスクを作成できる', function () {
-    /** @var \Tests\TestCase $this */
+    /** @var TestCase $this */
     $response = $this->post('/tasks', [
         'title' => 'Today task',
         'due_date' => now()->toDateString(),
@@ -23,7 +24,7 @@ it('今日の日付の期限ならタスクを作成できる', function () {
 });
 
 it('期限日なしでもタスクを作成できる', function () {
-    /** @var \Tests\TestCase $this */
+    /** @var TestCase $this */
     $response = $this->post('/tasks', [
         'title' => '期限日がないタスク',
         'due_date' => null,
@@ -39,7 +40,7 @@ it('期限日なしでもタスクを作成できる', function () {
 });
 
 it('過去日付の期限ではタスクを作成できない', function () {
-    /** @var \Tests\TestCase $this */
+    /** @var TestCase $this */
     $response = $this->post('/tasks', [
         'title' => 'Old task',
         'due_date' => now()->subDay()->toDateString(),
@@ -51,7 +52,7 @@ it('過去日付の期限ではタスクを作成できない', function () {
 });
 
 it('タイトルが空なら作成できない', function () {
-    /** @var \Tests\TestCase $this */
+    /** @var TestCase $this */
     $response = $this->post('/tasks', [
         'title' => '',
         'due_date' => null,
