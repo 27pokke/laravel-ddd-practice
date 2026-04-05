@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ArticleStatus;
+use App\Exceptions\ArticleAlreadyPublishedException;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
@@ -24,7 +25,7 @@ class Article extends Model
     public function publish(): void
     {
         if ($this->status === ArticleStatus::Published) {
-            throw new \App\Exceptions\ArticleAlreadyPublishedException('Article is already published.');
+            throw new ArticleAlreadyPublishedException('Article is already published.');
         }
 
         $this->status = ArticleStatus::Published;

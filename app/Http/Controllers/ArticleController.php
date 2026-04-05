@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ArticleStatus;
+use App\Exceptions\ArticleAlreadyPublishedException;
 use App\Models\Article;
+use App\UseCases\PublishArticleUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -37,12 +39,11 @@ class ArticleController extends Controller
         return to_route('articles.index');
     }
 
-    public function publish(Article $article): RedirectResponse
+    public function publish(Article $article, PublishArticleUseCase $useCase): RedirectResponse
     {
         try {
-            $article->publish();
-            $article->save();
-        } catch (\App\Exceptions\ArticleAlreadyPublishedException $exception) {
+            $useCase->handle($article);
+        } catch (ArticleAlreadyPublishedException $exception) {
             abort(400);
         }
 
