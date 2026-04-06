@@ -1,10 +1,10 @@
 <?php
 
 use App\Enums\ArticleStatus;
+use App\Exceptions\ArticleAlreadyPublishedException;
 use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Exceptions\ArticleAlreadyPublishedException;
 
 uses(TestCase::class, RefreshDatabase::class);
 
