@@ -7,6 +7,7 @@ use App\Exceptions\InvalidArticleTitleException;
 use App\Exceptions\PastPublishDateException;
 use App\Models\Article;
 use App\UseCases\CreateArticleUseCase;
+use App\UseCases\ListArticlesUseCase;
 use App\UseCases\PublishArticleUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,14 +15,10 @@ use Illuminate\View\View;
 
 class ArticleController extends Controller
 {
-    public function index(): View
+    public function index(ListArticlesUseCase $useCase): View
     {
-        $articles = Article::query()
-            ->latest()
-            ->get();
-
         return view('articles.index', [
-            'articles' => $articles,
+            'articles' => $useCase->handle(),
         ]);
     }
 
