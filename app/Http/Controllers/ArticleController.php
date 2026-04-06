@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ArticleAlreadyPublishedException;
+use App\Exceptions\InvalidArticleTitleException;
 use App\Exceptions\PastPublishDateException;
 use App\Models\Article;
 use App\UseCases\CreateArticleUseCase;
@@ -27,7 +28,7 @@ class ArticleController extends Controller
     public function store(Request $request, CreateArticleUseCase $useCase): RedirectResponse
     {
         $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string'],
             'publish_date' => ['nullable', 'date'],
         ]);
 
@@ -35,6 +36,8 @@ class ArticleController extends Controller
             $useCase->handle($validated['title'], $validated['publish_date'] ?? null);
         } catch (PastPublishDateException $exception) {
             return back()->withErrors(['publish_date' => $exception->getMessage()]);
+        } catch (InvalidArticleTitleException $exception) {
+            return back()->withErrors(['title' => $exception->getMessage()]);
         }
 
         return to_route('articles.index');
