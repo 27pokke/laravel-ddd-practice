@@ -8,12 +8,14 @@ use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
+it('下書き記事は作成できる', function () {
+    $article = Article::draft('下書き記事', null);
+
+    expect($article->status)->toBe(ArticleStatus::Draft);
+});
+
 it('下書き記事は公開できる', function () {
-    $article = new Article([
-        'title' => '下書き記事',
-        'status' => ArticleStatus::Draft->value,
-        'publish_date' => null,
-    ]);
+    $article = Article::draft('下書き記事', null);
 
     $article->publish();
 

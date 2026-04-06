@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ArticleStatus;
 use App\Exceptions\ArticleAlreadyPublishedException;
+use App\ValueObjects\PublishDate;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
@@ -13,6 +14,15 @@ class Article extends Model
         'status',
         'publish_date',
     ];
+
+    public static function draft(string $title, ?PublishDate $publishDate): self
+    {
+        return new self([
+            'title' => $title,
+            'status' => ArticleStatus::Draft,
+            'publish_date' => $publishDate?->toDateString(),
+        ]);
+    }
 
     protected function casts(): array
     {

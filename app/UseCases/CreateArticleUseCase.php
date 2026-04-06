@@ -10,14 +10,7 @@ class CreateArticleUseCase
 {
     public function handle(string $title, ?string $publishDate): void
     {
-        $publishDateValue = $publishDate
-            ? PublishDate::fromString($publishDate)->toDateString()
-            : null;
-
-        Article::create([
-            'title' => $title,
-            'status' => ArticleStatus::Draft,
-            'publish_date' => $publishDateValue,
-        ]);
+        $publishDateObject = $publishDate ? PublishDate::fromString($publishDate) : null;
+        Article::draft($title, $publishDateObject)->save();
     }
 }
