@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ArticleAlreadyPublishedException;
+use App\Exceptions\PastPublishDateException;
 use App\Models\Article;
 use App\UseCases\CreateArticleUseCase;
 use App\UseCases\PublishArticleUseCase;
@@ -27,10 +28,14 @@ class ArticleController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'publish_date' => ['nullable', 'date', 'after_or_equal:today'],
+            'publish_date' => ['nullable', 'date'],
         ]);
 
-        $useCase->handle($validated['title'], $validated['publish_date'] ?? null);
+        try {
+            $useCase->handle($validated['title'], $validated['publish_date'] ?? null);
+        } catch (PastPublishDateException $exception) {
+            return back()->withErrors(['publish_date' => $exception->getMessage()]);
+        }
 
         return to_route('articles.index');
     }
