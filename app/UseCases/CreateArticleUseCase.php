@@ -2,10 +2,9 @@
 
 namespace App\UseCases;
 
-use App\Enums\ArticleStatus;
 use App\Models\Article;
-use App\ValueObjects\PublishDate;
 use App\ValueObjects\ArticleTitle;
+use App\ValueObjects\PublishDate;
 
 class CreateArticleUseCase
 {
