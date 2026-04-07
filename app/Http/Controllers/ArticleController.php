@@ -7,6 +7,7 @@ use App\Exceptions\InvalidArticleTitleException;
 use App\Exceptions\PastPublishDateException;
 use App\Models\Article;
 use App\UseCases\CreateArticleUseCase;
+use App\UseCases\DeleteArticleUseCase;
 use App\UseCases\ListArticlesUseCase;
 use App\UseCases\PublishArticleUseCase;
 use Illuminate\Http\RedirectResponse;
@@ -51,9 +52,9 @@ class ArticleController extends Controller
         return to_route('articles.index');
     }
 
-    public function destroy(Article $article): RedirectResponse
+    public function destroy(Article $article, DeleteArticleUseCase $useCase): RedirectResponse
     {
-        $article->delete();
+        $useCase->handle($article);
 
         return to_route('articles.index');
     }
